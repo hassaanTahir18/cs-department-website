@@ -1,0 +1,21 @@
+name: Production CI Pipeline
+
+on:
+  push:
+    branches: [ production ]
+
+jobs:
+  lint-and-build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: HTML Hint Validation
+        uses: htmlhint/htmlhint-action@v2
+        with:
+          path: 'src/**/*.html'
+
+      - name: Build Production Image
+        run: |
+          docker build -t cs-dept-web:prod .
